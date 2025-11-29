@@ -80,10 +80,14 @@ impl MediaTag {
     pub fn new<P: AsRef<Path>>(path: P) -> Result<Self> {
         let path = path.as_ref();
 
-        let root = path
-            .parent()
-            .ok_or(Error::CouldNotDetermineMediaTagPath)?
-            .canonicalize()?;
+        let parent = path.parent().ok_or(Error::CouldNotDetermineMediaTagPath)?;
+
+        let root = if parent.as_os_str().is_empty() {
+            Path::new(".")
+        } else {
+            parent
+        }
+        .canonicalize()?;
 
         let connection = Connection::open(path)?;
         connection.execute_batch(SQL_SCRIPT)?;
