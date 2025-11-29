@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS tags (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS media (
+    id INTEGER PRIMARY KEY,
+    path TEXT UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS media_tags (
+    media_id INTEGER,
+    tag_id INTEGER,
+
+    FOREIGN KEY (media_id) REFERENCES media(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+
+    PRIMARY KEY (media_id, tag_id)
+);

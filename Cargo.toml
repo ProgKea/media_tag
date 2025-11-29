@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "media_tag_cli",
+    "media_tag_lib"
+]
+resolver = "2"
